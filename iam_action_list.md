@@ -1,17 +1,17 @@
-## Add
+#### Add
 AddClientIDToOpenIDConnectProvider
 AddRoleToInstanceProfile
 AddUserToGroup
 
-## Attach
+#### Attach
 AttachGroupPolicy
 AttachRolePolicy
 AttachUserPolicy
 
-## Change
+#### Change
 ChangePassword
 
-## Create
+#### Create
 CreateAccessKey
 CreateAccountAlias
 CreateGroup
@@ -27,10 +27,10 @@ CreateServiceSpecificCredential
 CreateUser
 CreateVirtualMFADevice
 
-## Deactive
+#### Deactive
 DeactivateMFADevice
 
-## Delete
+#### Delete
 DeleteAccessKey
 DeleteAccountAlias
 DeleteAccountPasswordPolicy
@@ -55,19 +55,19 @@ DeleteUserPermissionsBoundary
 DeleteUserPolicy
 DeleteVirtualMFADevice
 
-## Detach
+#### Detach
 DetachGroupPolicy
 DetachRolePolicy
 DetachUserPolicy
 
-## Enable
+#### Enable
 EnableMFADevice
 
-## Generate
+#### Generate
 GenerateCredentialReport
 GenerateServiceLastAccessedDetails
 
-## Get
+#### Get
 GetAccessKeyLastUsed
 GetAccountAuthorizationDetails
 GetAccountPasswordPolicy
@@ -93,7 +93,7 @@ GetServiceLinkedRoleDeletionStatus
 GetUser
 GetUserPolicy
 
-## List
+#### List
 ListAccessKeys
 ListAccountAliases
 ListAttachedGroupPolicies
@@ -123,44 +123,44 @@ ListUserTags
 ListUsers
 ListVirtualMFADevices
 
-## PassRole (?)
+#### PassRole (?)
 PassRole [permission only]
 
-## Put
+#### Put
 PutGroupPolicy
 PutRolePermissionsBoundary
 PutRolePolicy
 PutUserPermissionsBoundary
 PutUserPolicy
 
-## Remove
+#### Remove
 RemoveClientIDFromOpenIDConnectProvider
 RemoveRoleFromInstanceProfile
 RemoveUserFromGroup
 
-## Reset
+#### Reset
 ResetServiceSpecificCredential
 
-## Resync
+#### Resync
 ResyncMFADevice
 
-## Set
+#### Set
 SetDefaultPolicyVersion
 SetSecurityTokenServicePreferences
 
-## Simurate
+#### Simurate
 SimulateCustomPolicy
 SimulatePrincipalPolicy
 
-## Tag
+#### Tag
 TagRole
 TagUser
 
-## Untag
+#### Untag
 UntagRole
 UntagUser
 
-## Update
+#### Update
 UpdateAccessKey
 UpdateAccountPasswordPolicy
 UpdateAssumeRolePolicy
@@ -176,7 +176,7 @@ UpdateServiceSpecificCredential
 UpdateSigningCertificate
 UpdateUser
 
-## Upload
+#### Upload
 UploadSSHPublicKey
 UploadServerCertificate
 UploadSigningCertificate

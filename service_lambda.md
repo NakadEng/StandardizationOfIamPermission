@@ -1,5 +1,5 @@
 ## Lambdaがさわるサービス
-### データストア系
+### ストレージ系
 S3
 EFS
 FSx
@@ -8,7 +8,7 @@ Storage Gateway
 AWS Backup
 
 ### DB系
-RDS
+RDS *Lambda-to-RDSというユースケースは考慮しない？*
 DynamoDB
 ElastiCache
 Neptune
@@ -20,7 +20,6 @@ CloudWatch
 Systems Manager
 
 ### 開発系
-CodeCommit
 CodeBuild
 CodeDeploy
 CodePipeline
@@ -30,7 +29,7 @@ Simple Notification Service
 Simple Queue Service
 
 ## EC2がさわるサービス
-### データストア系
+### ストレージ系
 S3
 EFS
 FSx
@@ -46,4 +45,4 @@ Amazon DocumentDB
 
 ### 管理系
 CloudWatch
-Systems Manager
+Systems Manager *SessionManagerはDeny*

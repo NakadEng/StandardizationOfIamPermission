@@ -185,7 +185,7 @@ Resources:
             Resource: "*"
       ManagedPolicyName: DevAdminPermissionsBoundaryPolicy
 
-  DenyReadActionPermissionsBoundaryPolicy:
+  DenyReadOnlyPermissionsBoundaryPolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties: 
       PolicyDocument:
@@ -433,7 +433,7 @@ Resources:
               - kinesisanalytics:List*
               - kinesisvideo:Describe*
               - kinesisvideo:Get*
-              - kinesisvideo:List*
+              - kinesisvideo:List
               - kinesis:Describe*
               - kinesis:Get*
               - kinesis:List*
@@ -633,14 +633,110 @@ Resources:
               - cloudtrail:LookupEvents
               - s3:GetObject
             Resource: "*"
-        ManagedPolicyName: DenyReadActionPermissionsBoundaryPolicy
-#
-#  LambdaExecution:
-#    Type: AWS::IAM::ManagedPolicy
-#    Properties: 
-#      PolicyDocument:
-#        Version: 2012-10-17
-#        Statement:
+        ManagedPolicyName: DenyReadOnlyPermissionsBoundaryPolicy
+
+  LambdaExecutePermissionsBoundaryPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties: 
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AllowActionsWithoutIamActions
+            Effect: Allow
+            Action:
+              - cloudformation:DescribeChangeSet
+              - cloudformation:DescribeStackResources
+              - cloudformation:DescribeStacks
+              - cloudformation:GetTemplate
+              - cloudformation:ListStackResources
+              - cloudwatch:*
+              - cognito-identity:ListIdentityPools
+              - cognito-sync:GetCognitoEvents
+              - cognito-sync:SetCognitoEvents
+              - dynamodb:*
+              - ec2:DescribeSecurityGroups
+              - ec2:DescribeSubnets
+              - ec2:DescribeVpcs
+              - events:*
+              - iot:AttachPrincipalPolicy
+              - iot:AttachThingPrincipal
+              - iot:CreateKeysAndCertificate
+              - iot:CreatePolicy
+              - iot:CreateThing
+              - iot:CreateTopicRule
+              - iot:DescribeEndpoint
+              - iot:GetTopicRule
+              - iot:ListPolicies
+              - iot:ListThings
+              - iot:ListTopicRules
+              - iot:ReplaceTopicRule
+              - kinesis:DescribeStream
+              - kinesis:ListStreams
+              - kinesis:PutRecord
+              - kms:ListAliases
+              - lambda:*
+              - logs:*
+              - s3:*
+              - sns:ListSubscriptions
+              - sns:ListSubscriptionsByTopic
+              - sns:ListTopics
+              - sns:Publish
+              - sns:Subscribe
+              - sns:Unsubscribe
+              - sqs:ListQueues
+              - sqs:SendMessage
+              - tag:GetResources
+              - xray:PutTelemetryRecords
+              - xray:PutTraceSegments
+            Resource: "*"
+
+          - Sid: AllowIamActions
+            Effect: Allow
+            Action:
+              - iam:GetPolicy
+              - iam:GetPolicyVersion
+              - iam:GetRole
+              - iam:GetRolePolicy
+              - iam:ListAttachedRolePolicies
+              - iam:ListRolePolicies
+              - iam:ListRoles
+              - iam:PassRole
+            Resource: "*"
+        ManagedPolicyName: "LambdaExecutePermissionsBoundaryPolicy"
+
+  EC2AdminPermissionsBoundaryPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties: 
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: 
+            Effect: Allow
+            Action:
+              - cloudwatch:*
+              - dynamodb:*
+              - ec2:DescribeSecurityGroups
+              - ec2:DescribeSubnets
+              - ec2:DescribeVpcs
+              - events:*
+              - kinesis:DescribeStream
+              - kinesis:ListStreams
+              - kinesis:PutRecord
+              - kms:ListAliases
+              - lambda:*
+              - logs:*
+              - s3:*
+              - sns:ListSubscriptions
+              - sns:ListSubscriptionsByTopic
+              - sns:ListTopics
+              - sns:Publish
+              - sns:Subscribe
+              - sns:Unsubscribe
+              - sqs:ListQueues
+              - sqs:SendMessage
+              - tag:GetResources
+            Resource: "*"
+        ManagedPolicyName: "EC2AdminPermissionsBoundaryPolicy"
 
 ################################
 #### IAM Roles
@@ -680,5 +776,43 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/ReadOnlyAccess
       MaxSessionDuration: 7200
-      PermissionsBoundary: !Ref DenyReadActionPermissionsBoundaryPolicy
+      PermissionsBoundary: !Ref DenyReadOnlyPermissionsBoundaryPolicy
       RoleName: ReadOnly_General
+
+  LambdaAdmin:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement: 
+          -
+            Effect: Allow
+            Principal: 
+              # AssumeRole元のAccountIDを入力 
+              AWS: [!Ref AWS::AccountId]
+            Action: 
+              - sts:AssumeRole
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/AWSLambdaFullAccess
+        MaxSessionDuration: 7200
+        PermissionsBoundary: !Ref LambdaExecutePermissionsBoundaryPolicy
+        RoleName: Lambda_Admin
+
+    EC2Admin:
+      Type: AWS::IAM::Role
+      Properties: 
+        AssumeRolePolicyDocument:
+          Version: 2012-10-17
+          Statement: 
+            -
+              Effect: Allow
+              Principal: 
+                # AssumeRole元のAccountIDを入力 
+                AWS: [!Ref AWS::AccountId]
+              Action: 
+                - sts:AssumeRole
+          ManagedPolicyArns:
+            - arn:aws:iam::aws:policy/PowerUserAccess
+          MaxSessionDuration: 7200
+          PermissionsBoundary: !Ref EC2AdminPermissionsBoundaryPolicy
+          RoleName: EC2_Admin

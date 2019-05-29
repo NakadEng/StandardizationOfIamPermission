@@ -1,10 +1,8 @@
 ## Lambdaがさわるサービス
 ### ストレージ系
 S3
-EFS
-FSx
+
 S3 Glacier
-Storage Gateway
 AWS Backup
 
 ### DB系
@@ -46,3 +44,6 @@ Amazon DocumentDB
 ### 管理系
 CloudWatch
 Systems Manager *SessionManagerはDeny*
+
+### 鍵管理
+KMS
